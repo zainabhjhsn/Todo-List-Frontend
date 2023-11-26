@@ -3,7 +3,7 @@ import React from 'react'
 function Delete() {
   return (
     <svg fill="#fff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" 
-    width="1500px" height="1500px" viewBox="0 0 482.428 482.429"
+    width="20px" height="30px" viewBox="0 0 482.428 482.429"
 >
  <g>
    <g>

@@ -2,7 +2,7 @@ import React from 'react'
 
 function edit() {
   return (
-<svg width="1500px" height="1500px" viewBox="-2.56 0 89.725 89.725" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+<svg width="20px" height="30px" viewBox="-2.56 0 89.725 89.725" xmlns="http://www.w3.org/2000/svg" fill="#000000">
 
 <g id="SVGRepo_bgCarrier" stroke-width="0"/>
 
