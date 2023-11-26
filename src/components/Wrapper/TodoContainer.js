@@ -16,7 +16,7 @@ function ToDoContainer() {
     //...todos is a spread operator, it will take the current todos and spread them out
     setTodos([
       ...todos,
-      { id: uuidv4(), task: todo, completed: false, isEditing: false },
+      { id: uuidv4(), task: todo, done: false, isEditing: false },
     ]);
   }
 
@@ -27,7 +27,7 @@ function ToDoContainer() {
           //suppose to update
           return {
             ...todo,
-            completed: !todo.completed,
+            done: !todo.done,
           };
         } else {
           //do nothing

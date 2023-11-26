@@ -7,7 +7,7 @@ import DeleteIcon from '../../constants/svgs/delete'
 function Todo({ task, toggleComplete, deleteTodo, editTodo }) {
   return (
     <div className="Todo">
-        <p className={`${task.completed ? "completed" : "incompleted"}`}>{task.task}</p>
+        <p className={`${task.done ? "completed" : "incompleted"}`}>{task.task}</p>
         <div className="TodoIcons">
           
             <div onClick={() => toggleComplete(task.id)} >
