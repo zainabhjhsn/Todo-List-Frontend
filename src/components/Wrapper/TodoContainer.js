@@ -2,13 +2,25 @@ import React from 'react'
 import "./TodoContainer.css"
 import TodoForm from '../Form/TodoForm'
 import EditTodoForm from '../EditForm/EditTodoForm'
-import { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import { useState, useEffect } from 'react'
 import Todo from '../Task/Todo';
+import Axios from 'axios';
+import axios from 'axios'
+
 
 function ToDoContainer() {
-
+  
   const [todos, setTodos] = useState([]);
+
+  const getTodos = async() => {
+    const response = await Axios.get('http://localhost:3001/task');
+    setTodos(response.data);
+  }
+
+  useEffect(() => {
+    getTodos();
+  }, []);
+
 
   const addTodo = (todo) => {
     //first arg is the current state, second arg is the new state
@@ -16,8 +28,18 @@ function ToDoContainer() {
     //...todos is a spread operator, it will take the current todos and spread them out
     setTodos([
       ...todos,
-      { id: uuidv4(), task: todo, done: false, isEditing: false },
+      { id: null, title: todo, done: false, isEditing: false },
     ]);
+    axios.post('http://localhost:3001/task', {
+      title: todo,
+    }).then((response) => {
+      setTodos([
+        ...todos,
+        { id: response.data.id, title: todo, done: false, isEditing: false },
+      ]);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   const toggleComplete = (id) => {
@@ -35,10 +57,21 @@ function ToDoContainer() {
         }
       })
     );
+    axios.patch(`http://localhost:3001/task/${id}`, {
+      //here we are updating the done property of the todo
+      //we are setting it to the opposite of what it is
+      //if it is true, we set it to false
+      //if it is false, we set it to true
+      //we are using the find method to find the todo with the id that we are passing in
+      //then we are getting the done property of that todo
+      //then we are setting it to the opposite of what it is
+      done: !todos.find((todo) => todo.id === id).done,
+    });
   }
 
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+    axios.delete(`http://localhost:3001/task/${id}`);
   }
 
   const editTodo = (id) => {
@@ -57,7 +90,7 @@ function ToDoContainer() {
           //suppose to update
           return {
             ...todo,
-            task: value,
+            title: value,
             isEditing: !todo.isEditing,
           };
         } else {

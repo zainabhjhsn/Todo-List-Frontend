@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import './EditTodoForm.css'
+import axios from 'axios'
 
 function EditTodoForm({editTodo, task}) {
   const [value, setValue] = useState(task.task)
@@ -10,8 +11,12 @@ function EditTodoForm({editTodo, task}) {
     if (value) {
       // add todo
       editTodo(value, task.id);
+      axios.patch(`http://localhost:3001/task/${task.id}`, {
+        title: value,
+      });
       // clear form after submission
       setValue('');
+
     }
   }
 
