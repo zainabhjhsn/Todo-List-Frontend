@@ -22,20 +22,20 @@ function ToDoContainer() {
   }, []);
 
 
-  const addTodo = (todo) => {
+  const addTodo = (todoName, desc) => {
     //first arg is the current state, second arg is the new state
     //setTodos([...todos, todo]); //this will add the new todo to the end of the array
     //...todos is a spread operator, it will take the current todos and spread them out
     setTodos([
       ...todos,
-      { id: null, title: todo, done: false, isEditing: false },
+      { id: null, title: todoName, description: desc, done: false, isEditing: false },
     ]);
     axios.post('http://localhost:3001/task', {
-      title: todo,
+      title: todoName,
     }).then((response) => {
       setTodos([
         ...todos,
-        { id: response.data.id, title: todo, done: false, isEditing: false },
+        { id: response.data.id, title: todoName, description: desc, done: false, isEditing: false },
       ]);
     }).catch((error) => {
       console.log(error);
@@ -83,7 +83,7 @@ function ToDoContainer() {
   }
 
 
-  const editTask = (value, id) => {
+  const editTask = (value, desc, id) => {
     setTodos(
       todos.map((todo) => {
         if (todo.id === id) {
@@ -91,6 +91,7 @@ function ToDoContainer() {
           return {
             ...todo,
             title: value,
+            description: desc,
             isEditing: !todo.isEditing,
           };
         } else {
@@ -115,6 +116,7 @@ function ToDoContainer() {
         <Todo
           key={todo.id}
           task={todo}
+          
           toggleComplete={toggleComplete}
           deleteTodo={deleteTodo}
           editTodo={editTodo}

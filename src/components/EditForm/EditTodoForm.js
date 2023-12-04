@@ -4,19 +4,22 @@ import './EditTodoForm.css'
 import axios from 'axios'
 
 function EditTodoForm({editTodo, task}) {
-  const [value, setValue] = useState(task.task)
+  
+  const [titleName, setTitleName] = useState(task.title)
+  const [desc, setDesc] = useState(task.description)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (value) {
+    if (titleName) {
       // add todo
-      editTodo(value, task.id);
+      editTodo(titleName, desc, task.id);
       axios.patch(`http://localhost:3001/task/${task.id}`, {
-        title: value,
+        title: titleName,
+        description: desc
       });
       // clear form after submission
-      setValue('');
-
+      setTitleName('');
+      setDesc('');
     }
   }
 
@@ -24,10 +27,17 @@ function EditTodoForm({editTodo, task}) {
     <form onSubmit={handleSubmit} className="TodoForm">
     <input 
       type="text" 
-      value={value} 
-      onChange={(e) => setValue(e.target.value)}
-      className="todo-input"
-      placeholder='Update the task here'
+      value={titleName} 
+      onChange={(e) => setTitleName(e.target.value)}
+      className="todo-input-name"
+      placeholder='Task Name'
+    />
+    <input 
+      type="text" 
+      value={desc} 
+      onChange={(e) => setDesc(e.target.value)}
+      className="todo-input-desc"
+      placeholder='What is the task?'
     />
     <button type="submit" className='todo-btn'>Update Task</button>
     </form>

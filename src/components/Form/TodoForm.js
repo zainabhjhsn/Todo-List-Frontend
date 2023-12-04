@@ -3,15 +3,17 @@ import { useState } from 'react'
 import './TodoForm.css'
 
 function ToDoForm({addTodo}) {
-  const [value, setValue] = useState('')
+  const [title, setTitle] = useState('')
+  const [desc, setDesc] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (value) {
+    if (title) {
       // add todo
-      addTodo(value);
+      addTodo(title, desc);
       // clear form after submission
-      setValue('');
+      setTitle('');
+      setDesc('');
     }
   }
 
@@ -19,10 +21,17 @@ function ToDoForm({addTodo}) {
     <form onSubmit={handleSubmit} className="TodoForm">
     <input 
       type="text" 
-      value={value} 
-      onChange={(e) => setValue(e.target.value)}
-      className="todo-input"
-      placeholder='What is the task today?'
+      value={title} 
+      onChange={(e) => setTitle(e.target.value)}
+      className="todo-input-name"
+      placeholder='Task Name'
+    />
+     <input 
+      type="text" 
+      value={desc} 
+      onChange={(e) => setDesc(e.target.value)}
+      className="todo-input-desc"
+      placeholder='What is the task?'
     />
     <button type="submit" className='todo-btn'>Add Task</button>
     </form>

@@ -8,6 +8,7 @@ function Todo({ task, toggleComplete, deleteTodo, editTodo }) {
   return (
     <div className="Todo">
         <p className={`${task.done ? "completed" : "incompleted"}`}>{task.title}</p>
+        <p>{task.description}</p>
         <div className="TodoIcons">
           
             <div onClick={() => toggleComplete(task.id)} >
@@ -23,7 +24,9 @@ function Todo({ task, toggleComplete, deleteTodo, editTodo }) {
             </div>
            
         </div>
+       
     </div>
+    
   )
 }
 
