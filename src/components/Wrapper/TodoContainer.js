@@ -32,6 +32,7 @@ function ToDoContainer() {
     ]);
     axios.post('http://localhost:3001/task', {
       title: todoName,
+      description: desc
     }).then((response) => {
       setTodos([
         ...todos,
@@ -116,7 +117,6 @@ function ToDoContainer() {
         <Todo
           key={todo.id}
           task={todo}
-          
           toggleComplete={toggleComplete}
           deleteTodo={deleteTodo}
           editTodo={editTodo}

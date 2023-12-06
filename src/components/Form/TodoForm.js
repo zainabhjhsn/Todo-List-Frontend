@@ -24,8 +24,9 @@ function ToDoForm({addTodo}) {
       value={title} 
       onChange={(e) => setTitle(e.target.value)}
       className="todo-input-name"
-      placeholder='Task Name'
+      placeholder='Task Name:'
     />
+    
      <input 
       type="text" 
       value={desc} 
