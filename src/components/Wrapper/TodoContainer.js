@@ -1,125 +1,59 @@
-import React from 'react'
-import "./TodoContainer.css"
-import TodoForm from '../Form/TodoForm'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addTodo, deleteTodo, editTask, editTodo, fetchTodos, toggleTodo } from "../../redux/todo/todoActions"
 import EditTodoForm from '../EditForm/EditTodoForm'
-import { useState, useEffect } from 'react'
-import Todo from '../Task/Todo';
-import Axios from 'axios';
-import axios from 'axios'
+import TodoForm from '../Form/TodoForm'
+import Todo from '../Task/Todo'
+import "./TodoContainer.css"
 
 
 function ToDoContainer() {
-  
-  const [todos, setTodos] = useState([]);
 
-  const getTodos = async() => {
-    const response = await Axios.get('http://localhost:3001/task');
-    setTodos(response.data);
-  }
+  const dispatch = useDispatch()
+  const {todos} = useSelector(state => state.todo)
 
   useEffect(() => {
-    getTodos();
+    dispatch(fetchTodos())
   }, []);
 
 
-  const addTodo = (todoName, desc) => {
-    //first arg is the current state, second arg is the new state
-    //setTodos([...todos, todo]); //this will add the new todo to the end of the array
-    //...todos is a spread operator, it will take the current todos and spread them out
-    setTodos([
-      ...todos,
-      { id: null, title: todoName, description: desc, done: false, isEditing: false },
-    ]);
-    axios.post('http://localhost:3001/task', {
-      title: todoName,
-      description: desc
-    }).then((response) => {
-      setTodos([
-        ...todos,
-        { id: response.data.id, title: todoName, description: desc, done: false, isEditing: false },
-      ]);
-    }).catch((error) => {
-      console.log(error);
-    });
+  const addNewTodo = (todoName, desc) => {
+    dispatch(addTodo(todoName, desc));
   }
 
-  const toggleComplete = (id) => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) {
-          //suppose to update
-          return {
-            ...todo,
-            done: !todo.done,
-          };
-        } else {
-          //do nothing
-          return todo;
-        }
-      })
-    );
-    axios.patch(`http://localhost:3001/task/${id}`, {
-      //here we are updating the done property of the todo
-      //we are setting it to the opposite of what it is
-      //if it is true, we set it to false
-      //if it is false, we set it to true
-      //we are using the find method to find the todo with the id that we are passing in
-      //then we are getting the done property of that todo
-      //then we are setting it to the opposite of what it is
-      done: !todos.find((todo) => todo.id === id).done,
-    });
+  const deleteNewTodo = (id) => {
+    dispatch(deleteTodo(id));
   }
 
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-    axios.delete(`http://localhost:3001/task/${id}`);
+  const toggleNewTodo = (id, done) => {
+    dispatch(toggleTodo(id, done));
   }
 
-  const editTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isEditing: !todo.isEditing } : todo
-      )
-    );
+  const editNewTodo = (id) => {
+    dispatch(editTodo(id));
   }
 
-
-  const editTask = (value, desc, id) => {
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) {
-          //suppose to update
-          return {
-            ...todo,
-            title: value,
-            description: desc,
-            isEditing: !todo.isEditing,
-          };
-        } else {
-          //do nothing
-          return todo;
-        }
-      })
-    );
+  const editNewTask = (value, desc, id) => {
+    dispatch(editTask(value, desc, id));
   }
 
   return (
     <div className='TodoWrapper'>
       <h1>Get Things Done !</h1>  
-      <TodoForm  addTodo={addTodo} />
+      <TodoForm  addTodo={addNewTodo} />
       {/* display todos */}
       {todos.map((todo) => (
         todo.isEditing ? 
-          (<EditTodoForm task={todo} editTodo={editTask} />
+          (<EditTodoForm task={todo} editTodo={editNewTask} />
 
         ) :(
         
         <Todo
           key={todo.id}
           task={todo}
-          toggleComplete={toggleComplete}
-          deleteTodo={deleteTodo}
-          editTodo={editTodo}
+          toggleComplete={toggleNewTodo}
+          deleteTodo={deleteNewTodo}
+          editTodo={editNewTodo}
         />)
       ))}
     

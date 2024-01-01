@@ -11,7 +11,7 @@ function Todo({ task, toggleComplete, deleteTodo, editTodo }) {
         <p className={`${task.done ? "completed" : "incompleted"}`}>{task.description}</p>
         <div className="TodoIcons">
           
-            <div onClick={() => toggleComplete(task.id)} >
+            <div onClick={() => toggleComplete(task.id, task.done)} >
               <CheckedIcon />
             </div>
             
