@@ -59,7 +59,8 @@ const reducer = (state = initialState, action) => {
         case DELETE_TODO_SUCCESS:
             return {
                 loading: false,
-                todos: state.todos.filter(todo => todo.id !== action.payload),
+                //here we are filtering out the todo that we deleted from the state and returning a new state with the filtered todos array 
+                todos: state.todos.filter(todo => todo.id !== action.payload.id),
                 error: ''
             }
         case DELETE_TODO_FAILURE:
@@ -77,7 +78,7 @@ const reducer = (state = initialState, action) => {
             return {
                 loading: false,
                 todos: state.todos.map(todo => {
-                    if (todo.id === action.payload) {
+                    if (todo.id === action.payload.id) {
                         return {
                             ...todo,
                             done: !todo.done

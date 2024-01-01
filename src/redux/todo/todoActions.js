@@ -63,10 +63,10 @@ export const deleteTodoRequest = () => {
         type: DELETE_TODO_REQUEST,
     };
 }
-export const deleteTodoSuccess = todos => {
+export const deleteTodoSuccess = todo => {
     return {
         type: DELETE_TODO_SUCCESS,
-        payload: todos,
+        payload: todo,
     };
 }
 export const deleteTodoFailure = error => {
@@ -82,10 +82,10 @@ export const toggleTodoRequest = () => {
         type: TOGGLE_TODO_REQUEST,
     };
 }
-export const toggleTodoSuccess = todos => {
+export const toggleTodoSuccess = todo => {
     return {
         type: TOGGLE_TODO_SUCCESS,
-        payload: todos,
+        payload: todo,
     };
 }
 export const toggleTodoFailure = error => {
