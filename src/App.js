@@ -1,16 +1,19 @@
 import React from "react";
 import "./App.css";
-import ToDoContainer from "./components/Wrapper/TodoContainer";
+import { BrowserRouter as Router, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import PageSwitch from "./pages/PageSwitch"
 
 function App() {
   return (
-    <Provider store={store}>
-      <div className="App">
-        <ToDoContainer></ToDoContainer>
-      </div>
-    </Provider>
+    <div className="App">
+      <Router basename="/">
+        <Provider store={store}>
+          <PageSwitch />
+        </Provider>
+      </Router>
+    </div>
   );
 }
 
